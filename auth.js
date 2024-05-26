@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const db = require('./database');
 
 const router = express.Router();
+const PORT = process.env.PORT || 3000;
 
 // Signup endpoint
 router.post('/signup', (req, res) => {
@@ -36,6 +37,7 @@ router.post('/login', (req, res) => {
         if (!isPasswordValid) {
             return res.status(400).json({ error: 'Invalid username or password' });
         }
+        const jwtSecret = process.env.JWT_SECRET;
         const token = jwt.sign({ id: user.id }, 'your_jwt_secret', { expiresIn: '1h' });
         res.json({ token });
     });
